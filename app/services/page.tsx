@@ -30,6 +30,9 @@ export default function ServicesPage() {
         name: featured.title,
         description: `Worship service from ${site.name}`,
         uploadDate: featured.publishedAt ?? featured.date,
+        // Absolute HTTPS JPEG — required by Google for video rich results.
+        // hqdefault is always present on YouTube (maxresdefault can 404).
+        thumbnailUrl: `https://i.ytimg.com/vi/${featured.youtubeId}/hqdefault.jpg`,
         embedUrl: `https://www.youtube.com/embed/${featured.youtubeId}`,
         contentUrl: featured.youtubeUrl,
         publisher: {
