@@ -10,7 +10,7 @@ import {
 } from "@/lib/content";
 
 export const metadata = buildMetadata({
-  title: "Services",
+  title: "Past Services | Summit Church Rainbow City",
   description:
     "Watch past worship services and Sunday School streams from Summit Church in Rainbow City, AL on YouTube.",
   path: "/services",
@@ -30,6 +30,7 @@ export default function ServicesPage() {
         name: featured.title,
         description: `Worship service from ${site.name}`,
         uploadDate: featured.publishedAt ?? featured.date,
+        thumbnailUrl: `https://i.ytimg.com/vi/${featured.youtubeId}/hqdefault.jpg`,
         embedUrl: `https://www.youtube.com/embed/${featured.youtubeId}`,
         contentUrl: featured.youtubeUrl,
         publisher: {
