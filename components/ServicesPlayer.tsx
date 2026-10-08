@@ -116,7 +116,7 @@ export function ServicesPlayer({ sermons, channelId, channelUrl }: ServicesPlaye
 
       {filtered.length > 0 && (
         <div className="overflow-x-auto">
-          <div className="flex flex-wrap gap-3 pb-2">
+          <div className="mx-auto grid max-w-sm grid-cols-1 gap-2 pb-2 sm:flex sm:max-w-none sm:flex-wrap sm:gap-3">
             {filtered.slice(0, ARCHIVE_LIMIT).map((sermon) => {
               const isSelected = !showLive && current?.youtubeId === sermon.youtubeId;
               return (
@@ -124,7 +124,7 @@ export function ServicesPlayer({ sermons, channelId, channelUrl }: ServicesPlaye
                   key={sermon.youtubeId}
                   type="button"
                   onClick={() => setActive(sermon)}
-                  className={`shrink-0 rounded-sm border px-4 py-3 text-left transition-colors ${
+                  className={`w-full shrink-0 rounded-sm border px-4 py-3 text-center transition-colors sm:w-auto sm:text-left ${
                     isSelected
                       ? "border-primary bg-primary text-white"
                       : "border-gray-200 bg-white text-gray-800 hover:border-primary hover:text-primary"
