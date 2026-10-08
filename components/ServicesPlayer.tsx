@@ -26,6 +26,14 @@ const filters: Array<{ key: FilterKey; label: string }> = [
 
 const ARCHIVE_LIMIT = 6;
 
+const LEADING_DATE = /^(\d{1,2}\/\d{1,2}\/\d{2,4})\s+(.+)$/;
+
+/** Split "10/04/26 Sunday Service" into { date: "10/04/26", name: "Sunday Service" }. */
+function splitDatedTitle(title: string): { date: string; name: string } | null {
+  const match = title.match(LEADING_DATE);
+  return match ? { date: match[1], name: match[2] } : null;
+}
+
 export function ServicesPlayer({ sermons, channelId, channelUrl }: ServicesPlayerProps) {
   const syncedSermons = useSermons(sermons);
   const liveStatus = useYouTubeLiveStatus();
@@ -119,6 +127,7 @@ export function ServicesPlayer({ sermons, channelId, channelUrl }: ServicesPlaye
           <div className="mx-auto grid max-w-sm auto-rows-fr grid-cols-2 gap-2 pb-2 sm:flex sm:max-w-none sm:flex-wrap sm:gap-3">
             {filtered.slice(0, ARCHIVE_LIMIT).map((sermon) => {
               const isSelected = !showLive && current?.youtubeId === sermon.youtubeId;
+              const dated = splitDatedTitle(sermon.title);
               return (
                 <button
                   key={sermon.youtubeId}
@@ -130,7 +139,17 @@ export function ServicesPlayer({ sermons, channelId, channelUrl }: ServicesPlaye
                       : "border-gray-200 bg-white text-gray-800 hover:border-primary hover:text-primary"
                   }`}
                 >
-                  <span className="block text-sm font-semibold">{sermon.title}</span>
+                  <span className="block text-sm font-semibold">
+                    {dated ? (
+                      <>
+                        {/* Phones: date over name. sm+: unchanged single line. */}
+                        <span className="block sm:inline">{dated.date}</span>{" "}
+                        <span className="block sm:inline">{dated.name}</span>
+                      </>
+                    ) : (
+                      sermon.title
+                    )}
+                  </span>
                 </button>
               );
             })}
